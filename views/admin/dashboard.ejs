@@ -1,0 +1,32 @@
+<div class="dashboard-grid">
+  <!-- Products Stat -->
+  <div class="admin-card">
+    <div><i class="fas fa-box"></i></div>
+    <h3>Total Products</h3>
+    <p><%= productCount %></p>
+    <a href="/admin/products" class="btn btn-sm btn-secondary">Manage Products</a>
+  </div>
+
+  <!-- Categories Stat -->
+  <div class="admin-card">
+    <div><i class="fas fa-tags"></i></div>
+    <h3>Total Categories</h3>
+    <p class="success"><%= categoryCount %></p>
+    <a href="/admin/categories" class="btn btn-sm btn-secondary">Manage Categories</a>
+  </div>
+
+  <!-- Orders Stat -->
+  <div class="admin-card">
+    <div><i class="fas fa-shopping-cart"></i></div>
+    <h3>Total Orders</h3>
+    <p class="primary"><%= orderCount %></p>
+    <a href="/admin/orders" class="btn btn-sm btn-secondary">Manage Orders</a>
+  </div>
+
+  <!-- Users Stat -->
+  <div class="admin-card">
+    <div><i class="fas fa-users"></i></div>
+    <h3>Total Users</h3>
+    <p class="warning"><%= userCount %></p>
+  </div>
+</div>

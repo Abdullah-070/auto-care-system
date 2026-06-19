@@ -1,0 +1,41 @@
+<div class="admin-card is-eb46d9df" >
+  <form action="/admin/products" method="POST" enctype="multipart/form-data">
+    <div class="is-c45d597b" >
+      <div class="is-4986ecf7" >
+        <label class="is-ab38d6d2" for="name" >Product Name</label>
+        <input class="is-312181af" type="text" id="name" name="name" required >
+      </div>
+      <div class="is-4986ecf7" >
+        <label class="is-ab38d6d2" for="price" >Price ($)</label>
+        <input class="is-312181af" type="number" id="price" name="price" step="0.01" min="0" required >
+      </div>
+    </div>
+
+    <div class="is-4986ecf7" >
+      <label class="is-ab38d6d2" for="category" >Category</label>
+      <select class="is-312181af" id="category" name="category" required >
+        <option value="" disabled selected>Select a category</option>
+        <% categories.forEach(cat => { %>
+          <option value="<%= cat._id %>"><%= cat.name %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="is-4986ecf7" >
+      <label class="is-ab38d6d2" for="image" >Product Image</label>
+      <input class="is-0714075b" type="file" id="image" name="image" accept="image/*" >
+      <small class="is-273b1323" >Or provide an external URL (optional if file is selected)</small>
+      <input class="is-8311c87e" type="text" name="image_url" placeholder="https://..." >
+    </div>
+
+    <div class="is-d3297f95" >
+      <label class="is-ab38d6d2" for="description" >Description</label>
+      <textarea class="is-312181af" id="description" name="description" rows="5" ></textarea>
+    </div>
+
+    <div class="is-0ba2053e" >
+      <button type="submit" class="btn btn-primary">Create Product</button>
+      <a href="/admin/products" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>

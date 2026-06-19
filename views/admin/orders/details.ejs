@@ -1,0 +1,70 @@
+<div class="is-32bf7d63" >
+  <!-- Order Items -->
+  <div class="admin-card">
+    <h3 class="is-d3297f95" >Order Items</h3>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% order.items.forEach(item => { %>
+          <tr>
+            <td>
+              <% if (item.product) { %>
+                <%= item.product.name %>
+              <% } else { %>
+                <span class="is-28e6a799" >(Product Deleted)</span>
+              <% } %>
+            </td>
+            <td>$<%= item.price.toFixed(2) %></td>
+            <td><%= item.quantity %></td>
+            <td>$<%= (item.price * item.quantity).toFixed(2) %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+      <tfoot>
+        <tr class="is-32102ac8" >
+          <td class="is-a713b556" colspan="3" >Total Amount:</td>
+          <td class="is-d8d6f7a6" >$<%= order.total.toFixed(2) %></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- Order Info & Status Update -->
+  <div>
+    <div class="admin-card">
+      <h3 class="is-d3297f95" >Customer Info</h3>
+      <p><strong>Name:</strong> <%= order.user.name %></p>
+      <p><strong>Email:</strong> <%= order.user.email %></p>
+      
+      <h3 class="is-1c68ae91" >Shipping Info</h3>
+      <p><%= order.shippingInfo.address %></p>
+      <p><%= order.shippingInfo.city %>, <%= order.shippingInfo.zip %></p>
+    </div>
+
+    <div class="admin-card">
+      <h3 class="is-d3297f95" >Order Status</h3>
+      <form action="/admin/orders/status/<%= order._id %>" method="POST">
+        <div class="form-group">
+          <select name="status" class="form-control">
+            <option value="pending" <%= order.status === 'pending' ? 'selected' : '' %>>Pending</option>
+            <option value="shipped" <%= order.status === 'shipped' ? 'selected' : '' %>>Shipped</option>
+            <option value="delivered" <%= order.status === 'delivered' ? 'selected' : '' %>>Delivered</option>
+            <option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary is-199b6f0e" >Update Status</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="is-988c5fa7" >
+  <a href="/admin/orders" class="btn btn-secondary">Back to Orders</a>
+</div>

@@ -1,0 +1,28 @@
+<div class="container page-header">
+  <h2><%= product.name %></h2>
+</div>
+
+<div class="container product-details-container">
+  <div class="product-image-container">
+    <img src="<%= product.image %>" alt="<%= product.name %>" class="product-detail-image">
+  </div>
+  <div class="product-info-container">
+    <div>
+      <span class="product-category"><%= product.category ? product.category.name : 'Uncategorized' %></span>
+    </div>
+    <h3 class="product-name"><%= product.name %></h3>
+    <p class="product-price-large">$<%= product.price.toFixed(2) %></p>
+    <div class="product-description-wrapper">
+      <p class="product-description"><%= product.description %></p>
+    </div>
+    <div class="add-to-cart-section">
+      <form action="/cart/add/<%= product._id %>" method="GET" class="add-to-cart-form">
+        <input type="number" name="quantity" value="1" min="1" class="quantity-input">
+        <button type="submit" class="btn btn-primary add-to-cart-btn">Add to Cart</button>
+      </form>
+    </div>
+    <div class="product-category-info">
+      <p><strong>Category:</strong> <%= product.category ? product.category.name : 'N/A' %></p>
+    </div>
+  </div>
+</div>

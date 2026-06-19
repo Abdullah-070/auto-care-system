@@ -1,0 +1,16 @@
+<div class="admin-card is-772440ee" >
+  <form action="/admin/categories/edit/<%= category._id %>" method="POST">
+    <div class="is-4986ecf7" >
+      <label class="is-ab38d6d2" for="name" >Category Name</label>
+      <input type="text" id="name" name="name" value="<%= category.name %>" required style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e0; border-radius: 4px;">
+    </div>
+    <div class="is-d3297f95" >
+      <label class="is-ab38d6d2" for="description" >Description</label>
+      <textarea class="is-312181af" id="description" name="description" rows="5" ><%= category.description %></textarea>
+    </div>
+    <div class="is-0ba2053e" >
+      <button type="submit" class="btn btn-primary">Update Category</button>
+      <a href="/admin/categories" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>

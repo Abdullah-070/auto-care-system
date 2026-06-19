@@ -1,0 +1,86 @@
+<div class="container page-header">
+  <h2><%= title %></h2>
+</div>
+
+<% if (!locals.categorySlug) { %>
+<div class="container filters">
+  <form action="/shop" method="GET">
+    <input type="text" name="search" placeholder="Search by name..." value="<%= typeof query !== 'undefined' ? query.search : '' %>">
+    
+    <select name="category">
+      <option value="">All Categories</option>
+      <% if(typeof categories !== 'undefined') { %>
+        <% categories.forEach(cat => { %>
+          <option value="<%= cat._id %>" <%= (typeof query !== 'undefined' && query.category == cat._id) ? 'selected' : '' %>><%= cat.name %></option>
+        <% }) %>
+      <% } %>
+    </select>
+    
+    <input type="number" name="minPrice" placeholder="Min Price" value="<%= typeof query !== 'undefined' ? query.minPrice : '' %>" step="0.01">
+    <input type="number" name="maxPrice" placeholder="Max Price" value="<%= typeof query !== 'undefined' ? query.maxPrice : '' %>" step="0.01">
+    
+    <button type="submit" class="btn btn-primary">Filter</button>
+    <a href="/shop" class="btn btn-secondary">Reset</a>
+  </form>
+</div>
+<% } %>
+
+<div class="container shop-container">
+  <% if (products.length > 0) { %>
+    <div class="product-grid">
+      <% products.forEach(product => { %>
+        <div class="product-card">
+          <a href="/product/<%= product.slug %>">
+            <img src="<%= product.image %>" alt="<%= product.name %>" class="product-image">
+          </a>
+          <div class="product-info">
+            <span class="product-category"><%= product.category ? product.category.name : 'Uncategorized' %></span>
+            <a href="/product/<%= product.slug %>" class="product-link">
+              <h3 class="product-title"><%= product.name %></h3>
+            </a>
+            <p class="product-desc"><%= product.description %></p>
+            <div class="product-bottom">
+              <span class="product-price">$<%= product.price.toFixed(2) %></span>
+              <a href="/cart/add/<%= product._id %>" class="btn btn-secondary">Add to Cart</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+    
+    <% if (totalPages > 1) { %>
+      <div class="pagination">
+        <% 
+          let qs = '';
+          if (typeof query !== 'undefined') {
+            const params = new URLSearchParams();
+            for (let k in query) {
+              if (k !== 'page' && query[k]) params.append(k, query[k]);
+            }
+            const str = params.toString();
+            if (str) qs = '&' + str;
+          }
+          let baseUrl = typeof categorySlug !== 'undefined' ? '/shop/category/' + categorySlug : '/shop'; 
+        %>
+        
+        <% if (currentPage > 1) { %>
+          <a href="<%= baseUrl %>?page=<%= currentPage - 1 %><%= qs %>" class="btn btn-secondary">&laquo; Prev</a>
+        <% } %>
+        
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <a href="<%= baseUrl %>?page=<%= i %><%= qs %>" class="btn <%= i === currentPage ? 'btn-primary' : 'btn-secondary' %>"><%= i %></a>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+          <a href="<%= baseUrl %>?page=<%= currentPage + 1 %><%= qs %>" class="btn btn-secondary">Next &raquo;</a>
+        <% } %>
+      </div>
+    <% } %>
+    
+  <% } else { %>
+    <div class="empty-state">
+      <h3>No products found</h3>
+      <p>Please check back later or try another category.</p>
+    </div>
+  <% } %>
+</div>
