@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 const Category = require('./models/Category');
 const Product = require('./models/Product');
+require('dotenv').config();
 
 const User = require('./models/User');
 const bcrypt = require('bcryptjs');
