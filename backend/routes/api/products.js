@@ -20,7 +20,7 @@ const upload = multer({ storage });
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const products = await Product.find().populate('category', 'name');
+    const products = await Product.find().sort({ createdAt: 1 }).populate('category', 'name');
     res.json(products);
   } catch (err) {
     console.error(err.message);
