@@ -20,7 +20,29 @@ const upload = multer({ storage });
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: 1 }).populate('category', 'name');
+    let products = await Product.find().populate('category', 'name');
+
+    // Sort by the trailing number in the product name (e.g. "Automotive Product 9" -> 9),
+    // falling back to createdAt then name for products without a numeric suffix.
+    // This is more reliable than sorting by createdAt alone, since bulk-seeded
+    // products can share the exact same millisecond timestamp.
+    const extractNumber = (name) => {
+      const match = name.match(/(\d+)\s*$/);
+      return match ? parseInt(match[1], 10) : null;
+    };
+
+    products = products.sort((a, b) => {
+      const numA = extractNumber(a.name);
+      const numB = extractNumber(b.name);
+      if (numA !== null && numB !== null) return numA - numB;
+      if (numA !== null) return -1;
+      if (numB !== null) return 1;
+      if (a.createdAt && b.createdAt && a.createdAt.getTime() !== b.createdAt.getTime()) {
+        return a.createdAt - b.createdAt;
+      }
+      return a.name.localeCompare(b.name);
+    });
+
     res.json(products);
   } catch (err) {
     console.error(err.message);
