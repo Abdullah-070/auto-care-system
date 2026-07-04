@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import ProductCard from '../components/ProductCard';
-import hero from '../assets/hero.png';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -18,7 +17,6 @@ const Home = () => {
           <h1>Quality Auto Spare Parts, Delivered Fast</h1>
           <p>Everything you need to keep your vehicle running — engine parts, lights, filters, and more.</p>
           <Link to="/shop" className="btn" style={{ background: '#fff', color: '#dc143c' }}>Shop Now</Link>
-          {hero && <img src={hero} alt="Auto Care" />}
         </div>
       </section>
 
