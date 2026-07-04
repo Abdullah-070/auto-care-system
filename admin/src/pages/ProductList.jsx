@@ -8,6 +8,18 @@ import { Delete, Edit, Add, PhotoCamera } from '@mui/icons-material';
 import api from '../services/api';
 import { useSnackbar } from 'notistack';
 
+// Backend origin, derived from the API base URL (strip trailing /api/v1)
+const API_ORIGIN = (import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1').replace(/\/api\/v1\/?$/, '');
+
+// Product images can be either a full URL (e.g. seeded Unsplash links) or a
+// relative path returned by the upload endpoint (e.g. /uploads/products/xyz.jpg).
+// Only prefix the backend origin in the relative-path case.
+function resolveImageUrl(image) {
+  if (!image) return '';
+  if (/^https?:\/\//i.test(image)) return image;
+  return `${API_ORIGIN}${image}`;
+}
+
 export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -107,7 +119,7 @@ export default function ProductList() {
             {products.map((product) => (
               <TableRow key={product._id} hover>
                 <TableCell>
-                  <img src={`http://localhost:3000${product.image}`} alt={product.name} style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 4 }} />
+                  <img src={resolveImageUrl(product.image)} alt={product.name} style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 4 }} />
                 </TableCell>
                 <TableCell sx={{ fontWeight: 500 }}>{product.name}</TableCell>
                 <TableCell>
